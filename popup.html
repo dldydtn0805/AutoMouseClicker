@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>마우스 위치 자동 클릭 도우미</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            width: 300px;
+            padding: 15px;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select {
+            padding: 5px;
+            margin-top: 3px;
+            width: 100%;
+        }
+        button {
+            padding: 8px 12px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #3367d6;
+        }
+        button.stop {
+            background-color: #ea4335;
+        }
+        button.stop:hover {
+            background-color: #d33828;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .active {
+            background-color: #e8f0fe;
+            color: #1967d2;
+        }
+        .inactive {
+            background-color: #f1f3f4;
+            color: #5f6368;
+        }
+        .position-info {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #f1f3f4;
+            border-radius: 4px;
+        }
+        .positions-list {
+            margin-top: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+        }
+        .position-item {
+            padding: 8px;
+            border-bottom: 1px solid #dadce0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .position-item:last-child {
+            border-bottom: none;
+        }
+        .position-item button {
+            margin-top: 0;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #dadce0;
+            margin-bottom: 10px;
+        }
+        .tab {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        .tab.active {
+            border-bottom-color: #4285f4;
+            color: #4285f4;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>마우스 위치 자동 클릭 도우미</h2>
+
+    <div class="tabs">
+        <div class="tab active" data-tab="single">단일 위치</div>
+        <div class="tab" data-tab="multi">다중 위치</div>
+    </div>
+
+    <div id="single-tab">
+        <div class="position-info">
+            <div>현재 위치: <span id="current-position">기록된 위치 없음</span></div>
+        </div>
+
+        <div>
+            <label for="interval">클릭 간격 (밀리초):</label>
+            <input type="number" id="interval" min="100" value="1000">
+        </div>
+
+        <div>
+            <label for="clickType">클릭 유형:</label>
+            <select id="clickType">
+                <option value="click">일반 클릭</option>
+                <option value="dblclick">더블 클릭</option>
+            </select>
+        </div>
+
+        <div class="buttons">
+            <button id="recordPositionBtn">위치 기록</button>
+            <button id="startBtn">클릭 시작</button>
+            <button id="stopBtn" class="stop">클릭 중지</button>
+        </div>
+    </div>
+
+    <div id="multi-tab" style="display: none;">
+        <div>
+            <label for="multiInterval">클릭 간격 (밀리초):</label>
+            <input type="number" id="multiInterval" min="100" value="1000">
+        </div>
+
+        <div>
+            <label for="multiClickType">클릭 유형:</label>
+            <select id="multiClickType">
+                <option value="click">일반 클릭</option>
+                <option value="dblclick">더블 클릭</option>
+            </select>
+        </div>
+
+        <div>
+            <button id="addPositionBtn">새 위치 추가</button>
+            <button id="clearPositionsBtn" class="stop">모든 위치 삭제</button>
+        </div>
+
+        <div class="positions-list" id="positions-list">
+            <div class="position-item">기록된 위치가 없습니다.</div>
+        </div>
+
+        <div class="buttons">
+            <button id="startMultiBtn">순차 클릭 시작</button>
+            <button id="stopMultiBtn" class="stop">클릭 중지</button>
+        </div>
+    </div>
+
+    <div id="status" class="status inactive">
+        현재 상태: 비활성화
+    </div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
